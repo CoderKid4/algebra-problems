@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wordler</title>
+<style>
+body {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+min-height: 100vh;
+background-color: #121213;
+color: white;
+font-family: Arial, sans-serif;
+padding-top: 20px;
+}
+.grid-container {
+display: grid;
+grid-template-columns: repeat(5, 60px);
+grid-template-rows: repeat(6, 60px);
+gap: 10px;
+margin-bottom: 20px;
+}
+.letter {
+width: 60px;
+height: 60px;
+background-color: #3a3a3c;
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 24px;
+font-weight: bold;
+text-transform: uppercase;
+border: 2px solid #565758;
+transition: transform 0.5s ease-in-out;
+}
+.correct {
+background-color: #538d4e !important;
+}
+.present {
+background-color: #b59f3b !important;
+}
+.absent {
+background-color: #3a3a3c !important;
+}
+.input-container {
+display: flex;
+gap: 10px;
+margin-bottom: 20px;
+}
+input {
+font-size: 18px;
+padding: 8px;
+text-transform: uppercase;
+border: 2px solid white;
+border-radius: 8px;
+background-color: #1a1a1b;
+color: white;
+text-align: center;
+}
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin-top: 20px;
+}
+
+.keyboard-row {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.key {
+width: 40px;
+height: 50px;
+font-size: 18px;
+font-weight: bold;
+text-transform: uppercase;
+background-color: #818384;
+color: white;
+border: none;
+border-radius: 5px;
+display: flex;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+.message {
+    position: absolute;
+    top: 120px; /* Adjust to position over the grid */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px 25px;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    z-index: 10; /* Ensures the message appears above the grid */
+}
+
+.show {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.1);
+}
+
+
+</style>
+</head>
+<body>
+<h1>Wordler</h1>
+<div class="grid-container" id="grid"></div>
+<div class="input-container">
+<input type="text" id="guess" maxlength="5" placeholder="Enter word" />
+</div>
+<p id="message" class="message"></p>
+<div class="keyboard" id="keyboard"></div>
+
+<script>
+async function isValidWord(word) {
+let response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+return response.ok;
+}
+
+const words = ["PLANE", "FLAME", "BRAVE", "CRAVE", "GRADE", "SHADE", "BLAME", "GRAPE", "FRAME", "STONE", "CLONE", "DRONE", "PRONE", "THOSE", "CHOSE", "CLOSE", "GLOVE", "SHOVE", "TROVE", "SCORE",  
+"STORE", "SHORE", "SPORE", "SLOPE", "GROVE", "GRIME", "PRIME", "CRIME", "SLIME", "BRINE", "SHINE", "SPINE", "SWINE", "THINE", "WHINE", "STARE", "FLARE", "GLARE", "SHARE", "SNARE",  
+"CHASE", "PHASE", "RAISE", "PRASE", "BLARE", "SCARE", "SKATE", "STATE", "PLATE", "GRATE", "CRATE", "SLATE", "MATEY", "MONEY", "HONEY", "BONEY", "STONY", "CANDY", "HANDY", "RANDY",  
+"SANDY", "BRAND", "GRAND", "STAND", "TREND", "BLEND", "SPEND", "SHEND", "ROUND", "FOUND", "SOUND", "MOUND", "BOUND", "WOUND", "COUNT", "MOUNT", "FRONT", "BLUNT", "STUNT", "GRUNT",  
+"BRUNT", "STRAP", "SCRAP", "TRAPY", "HAPPY", "SNAPPY", "TIPSY", "FANCY", "CHIRP", "SHIRK", "SPARK", "CLARK", "FLASK", "FRISK", "BRISK", "CRISP", "GLINT", "PRINT", "SPRINT", "GRASP",  
+"CLASP", "FLUSH", "BRUSH", "CRUSH", "PLUSH", "THRUM", "SCRUM", "DRIFT", "SHIFT", "GRIFT", "SWIFT", "STIFF", "BLUFF", "GRUFF", "STUFF", "PLUMB", "CRUMB", "STOMP", "CHOMP", "THUMP",  
+"SLUMP", "GRUMP", "TRUMP", "CHIRK", "SMIRK", "SPURT", "BURST", "CURST", "FIRST", "THIRST", "WORST", "EARLY", "CURLY", "SURLY", "GIRLY", "WHIRL", "TWIRL", "KNURL", "WORLD", "BIRCH",  
+"MARCH", "LARCH", "PERCH", "TORCH", "CHIRR", "WHIRR", "BLINK", "THINK", "DRINK", "CRINK", "CLINK", "BRINK", "STINK", "SWANK", "PLANK", "FRANK", "PRANK", "THANK", "FLANK", "SHRUB",  
+"SCRUB", "DRUBS", "GRUBS", "TRUSS", "PRUSS", "CRUSH", "FLUSH", "BLUSH", "BRUSH", "FRUSH", "CRUST", "TRUST", "GRIST", "TWIST", "WHIST", "SWISH", "SWOON", "CROON", "GLOOM", "BROOM",  
+"VROOM", "ROOMY", "BOOMY", "SOOTY", "MOODY", "LOOPY", "GROOV", "PROOF", "SPOOF", "CHOIR", "FLOOR", "BOURN", "ROUND", "SOUND", "BOUND", "MOUND", "FOUND", "CLOUD", "PROUD", "SHROUD",  
+"CROWD", "STOUT", "TROUT", "ABOUT", "SCOUT", "CLOUT", "FLOUT", "GROUT", "SHOUT", "BLOAT", "FLOAT", "GLOAT", "THROE", "CROWD", "SCOWL", "GROWL", "PROWL", "FROWN", "CROWN", "DROWN",  
+"THROWN", "WOVEN", "BROTH", "FORTH", "NORTH", "WORTH", "EARTH", "DEATH", "FAITH", "MIRTH", "GIRTH", "BIRTH", "DEPTH", "LENGTH", "STREW", "THREW", "SHEAR", "SPEAR", "CLEAR", "REAR",  
+"WEAR", "BEAR", "TEAR", "FLEER", "CHEER", "QUEER", "STEER", "SHEET", "FLEET", "SWEET", "GREET", "MEETS", "BLEED", "FREED", "GREED", "CREED", "SPEED", "SWEDE", "BREED", "SHRED",  
+"TREND", "BLEND", "SENDS", "LENDS", "BENDS", "FRIEND", "GRIND", "BLIND", "FIND", "MIND", "KIND", "BOUND", "SOUND", "ROUND", "FOUND", "MOUND", "CLOUD", "PROUD", "SHROUD", "CROWD",  
+"STOUT", "TROUT", "ABOUT", "SCOUT", "CLOUT", "FLOUT", "GROUT", "SHOUT", "BLOAT", "FLOAT", "GLOAT", "THROE", "CROWD", "SCOWL", "GROWL", "PROWL", "FROWN", "CROWN", "DROWN", "THROWN",  
+"WOVEN", "BROTH", "FORTH", "NORTH", "WORTH", "EARTH", "DEATH", "FAITH", "MIRTH", "GIRTH", "BIRTH", "DEPTH", "LENGTH", "STREW", "THREW", "SHEAR", "SPEAR", "CLEAR", "REAR", "WEAR",  
+"BEAR", "TEAR", "FLEER", "CHEER", "QUEER", "STEER", "SHEET", "FLEET", "SWEET", "GREET", "MEETS", "BLEED", "FREED", "GREED", "CREED", "SPEED", "SWEDE", "BREED", "SHRED", "TREND",  
+"BLEND", "SENDS", "LENDS", "BENDS", "FRIEND", "GRIND", "BLIND", "FIND", "MIND", "KIND", "CHART", "PARTY", "SMART", "START", "HEART", "ALERT", "SWEAT", "TREAT", "GREAT", "FLEET",  
+"MEETT", "BLAST", "CLASH", "FLASH", "CRASH", "TRASH", "BRUSH", "PLUSH", "FLUSH", "CRUSH", "THRILL", "SWIRL", "WHIRL", "TWIRL", "CHIRP", "SHARP", "SPARK", "CLARK", "PLANK", "FRANK",  
+"THANK", "PRANK", "STARK", "TRACK", "CRACK", "BLACK", "STACK", "SMACK", "QUICK", "STICK", "TRICK", "FLICK", "SHOCK", "CLOCK", "BLOCK", "STOCK", "ROCKY", "SPICY", "JUICY", "DAISY",  
+"FANCY", "TASTY", "DUSTY", "RUSTY", "MUSTY", "MISTY", "CHIRK", "QUIRK", "SMIRK", "JERKY", "FUNKY", "BUNKY", "HUNKY", "LUMPY", "JUMPY", "GRUMP", "TRUMP", "CRUMP", "STUMP", "BUMPY", "XYSTI", "VEXIL", "QUOIN", "MYRRH", "ZYMIC", "WHELK", "JOUST", "FJELD", "GLYPH", "PSALM",  
+"KNOUT", "BRUIT", "LYMPH", "NYMPH", "VOTER"  
+];
+let chosenWord = words[Math.floor(Math.random() * words.length)];
+let grid = document.getElementById("grid");
+let attempts = 0;
+
+function createGrid() {
+grid.innerHTML = "";
+for (let i = 0; i < 30; i++) {
+let cell = document.createElement("div");
+cell.classList.add("letter");
+grid.appendChild(cell);
+}
+}
+
+function createKeyboard() {
+    let keyboardContainer = document.getElementById("keyboard");
+    keyboardContainer.innerHTML = "";
+
+    let rows = [
+        "QWERTYUIOP",
+        "ASDFGHJKLZ",
+        "XCVBNM"
+    ];
+
+    rows.forEach(row => {
+        let rowDiv = document.createElement("div");
+        rowDiv.classList.add("keyboard-row");
+        row.split("").forEach(letter => {
+            let key = document.createElement("div");
+            key.classList.add("key");
+            key.id = `key-${letter}`;
+            key.textContent = letter;
+            rowDiv.appendChild(key);
+        });
+        keyboardContainer.appendChild(rowDiv);
+    });
+}
+
+
+
+async function checkGuess() {
+let inputField = document.getElementById("guess");
+let input = inputField.value.toUpperCase();
+if (input.length !== 5 || !(await isValidWord(input))) {
+showMessage("Invalid word!", "red");
+return;
+}
+
+let letters = Array.from(grid.children).slice(attempts * 5, (attempts + 1) * 5);
+for (let i = 0; i < 5; i++) {
+letters[i].textContent = input[i];
+letters[i].style.transform = "rotateY(90deg)";
+await new Promise(r => setTimeout(r, 200));
+letters[i].style.transform = "rotateY(0deg)";
+
+if (input[i] === chosenWord[i]) {
+letters[i].classList.add("correct");
+} else if (chosenWord.includes(input[i])) {
+letters[i].classList.add("present");
+} else {
+letters[i].classList.add("absent");
+}
+}
+
+updateKeyboard(input);
+attempts++;
+
+if (input === chosenWord) {
+showMessage("You Win!", "green");
+} else if (attempts >= 6) {
+showMessage("Game Over! The word was " + chosenWord, "red");
+}
+inputField.value = "";
+}
+
+function updateKeyboard(guess) {
+for (let i = 0; i < 5; i++) {
+let letter = guess[i];
+let key = document.getElementById(`key-${letter}`);
+if (!key) continue;
+if (chosenWord[i] === letter) key.classList.add("correct");
+else if (chosenWord.includes(letter)) key.classList.add("present");
+else key.classList.add("absent");
+}
+}
+
+function showMessage(text, color) {
+    let message = document.getElementById("message");
+    message.textContent = text;
+
+    // Set background and text colors
+    if (color === "red") {
+        message.style.backgroundColor = "rgba(255, 0, 0, 0.8)";
+        message.style.boxShadow = "0 0 20px rgba(255, 0, 0, 0.8)";
+        message.style.color = "black";
+    } else if (color === "green") {
+        message.style.backgroundColor = "rgba(0, 255, 0, 0.8)";
+        message.style.boxShadow = "0 0 20px rgba(0, 255, 0, 0.8)";
+        message.style.color = "black";
+    } else {
+        message.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+        message.style.boxShadow = "0 0 20px rgba(255, 255, 255, 0.5)";
+        message.style.color = "white";
+    }
+
+    message.classList.add("show");
+
+    // Hide the message and reset the game after 3 seconds if win/lose
+    setTimeout(() => {
+        message.classList.remove("show");
+        if (color === "red" || color === "green") {
+            resetGame();
+        }
+    }, 3000);
+}
+
+function resetGame() {
+    // Pick a new word
+    chosenWord = words[Math.floor(Math.random() * words.length)];
+    
+    // Reset grid
+    createGrid();
+
+    // Reset keyboard colors
+    document.querySelectorAll(".key").forEach(key => {
+        key.classList.remove("correct", "present", "absent");
+    });
+
+    // Reset attempts
+    attempts = 0;
+
+    // Clear input field
+    document.getElementById("guess").value = "";
+}
+
+
+
+document.getElementById("guess").addEventListener("keypress", function(event) {
+if (event.key === "Enter") {
+checkGuess();
+}
+});
+
+createGrid();
+createKeyboard();
+</script>
+</body>
+</html>
