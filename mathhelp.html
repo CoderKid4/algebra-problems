@@ -6,17 +6,48 @@
 <title>Dashboard</title>
     <link rel="icon" type="image/x-icon" href="https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico" />
 <style>
-body {
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: flex-start;
-min-height: 100vh;
-background-color: #121213;
-color: white;
-font-family: Arial, sans-serif;
-padding-top: 20px;
-}
+      * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        #background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 100vh;
+            display: flex;
+            transition: transform 1s ease-in-out;
+            z-index: -1;
+        }
+
+        .background-image {
+            width: 50%;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
 .grid-container {
 display: grid;
 grid-template-columns: repeat(5, 60px);
@@ -218,7 +249,10 @@ transition: background-color 0.3s ease;
     <button onclick="window.location.href='REPLACE HERE'">Game 29</button>
     <button onclick="window.location.href='REPLACE HERE'">Game 30</button>
 </div>
-
+    <div id="background-container">
+        <div class="background-image" id="bg1"></div>
+        <div class="background-image" id="bg2"></div>
+    </div>
 <script>
 async function isValidWord(word) {
 let response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
@@ -429,7 +463,33 @@ if (event.key === "Enter") {
 checkGuess();
 }
 });
+const images = [
+            'https://wallpapers.com/images/hd/cool-space-pictures-5xjolsgwmrmgc2fs.jpg',
+            'https://wallpapers.com/images/featured/colorful-galaxy-vmf48xxfvh4vurke.jpg',
+            'https://i.pinimg.com/736x/92/70/81/9270817e87d84e321e96413b215379e5.jpg',
+            'https://w0.peakpx.com/wallpaper/399/178/HD-wallpaper-galaxy-stars-cool-space-fun-galaxies.jpg'
+        ];
 
+        let currentImageIndex = 0;
+        const bg1 = document.getElementById('bg1');
+        const bg2 = document.getElementById('bg2');
+        const container = document.getElementById('background-container');
+
+        function changeBackground() {
+            const nextIndex = (currentImageIndex + 1) % images.length;
+            if (container.style.transform === 'translateX(-50%)') {
+                bg1.style.backgroundImage = `url('${images[nextIndex]}')`;
+                container.style.transform = 'translateX(0)';
+            } else {
+                bg2.style.backgroundImage = `url('${images[nextIndex]}')`;
+                container.style.transform = 'translateX(-50%)';
+            }
+            currentImageIndex = nextIndex;
+        }
+
+        bg1.style.backgroundImage = `url('${images[0]}')`;
+        bg2.style.backgroundImage = `url('${images[1]}')`;
+        setInterval(changeBackground, 5000);
 createGrid();
 createKeyboard();
 </script>
