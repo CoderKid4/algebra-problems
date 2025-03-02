@@ -73,7 +73,9 @@ font-size: 24px;
 font-weight: bold;
 text-transform: uppercase;
 border: 2px solid #565758;
-transition: transform 0.5s ease-in-out;
+ transition: transform 0.6s;
+    transform-style: preserve-3d;
+transform: rotateY(180deg);
 }
 .correct {
 background-color: #538d4e !important;
@@ -152,55 +154,46 @@ transition: background-color 0.3s ease;
     transform: translateX(-50%) scale(1.1);
 }
 
-
-/* Game Button Containers */
 .game-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 300px;
+    padding: 10px;
     position: absolute;
-    top: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    gap: 5px;
-    padding: 5px;
-    overflow: hidden;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .left-buttons {
-    left: 10px;
+    left: 20px;
 }
 
 .right-buttons {
-    right: 10px;
+    right: 20px;
 }
 
-/* Button Styling */
 .game-buttons button {
-    background: rgba(0, 0, 0, 0.6);
+    background: linear-gradient(135deg, #444, #666);
     color: white;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    padding: 10px;
-    font-size: 12px;
+    border: none;
+    padding: 15px;
+    font-size: 16px;
     cursor: pointer;
-    border-radius: 6px;
-    transition: background 0.3s, transform 0.2s;
-    width: 130px;
+    border-radius: 12px;
+    transition: all 0.3s ease, transform 0.2s;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
 }
 
 .game-buttons button:hover {
-    background: rgba(255, 255, 255, 0.4);
-    transform: scale(1.05);
+    background: linear-gradient(135deg, #666, #888);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 15px rgba(255, 255, 255, 0.4);
 }
-
-/* Cool Glowing Effect */
 @keyframes glow {
     0% { box-shadow: 0 0 5px white; }
     50% { box-shadow: 0 0 15px white; }
     100% { box-shadow: 0 0 5px white; }
-}
-
-.game-buttons button:hover {
-    animation: glow 1s infinite alternate;
 }
 
 /* Animated Background */
@@ -223,6 +216,39 @@ transition: background-color 0.3s ease;
 <p id="message" class="message"></p>
 <div class="keyboard" id="keyboard"></div>
 <div class="game-buttons left-buttons">
+  <button onclick="window.location.href='REPLACE HERE'">Game 1</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 2</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 3</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 4</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 5</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 6</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 7</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 8</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 9</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 10</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 11</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 12</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 13</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 14</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 15</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 16</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 17</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 18</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 19</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 20</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 21</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 22</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 23</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 24</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 25</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 26</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 27</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 28</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 29</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 30</button>
+</div>
+
+<div class="game-buttons right-buttons">
     <button onclick="window.location.href='REPLACE HERE'">Game 1</button>
     <button onclick="window.location.href='REPLACE HERE'">Game 2</button>
     <button onclick="window.location.href='REPLACE HERE'">Game 3</button>
@@ -238,9 +264,6 @@ transition: background-color 0.3s ease;
     <button onclick="window.location.href='REPLACE HERE'">Game 13</button>
     <button onclick="window.location.href='REPLACE HERE'">Game 14</button>
     <button onclick="window.location.href='REPLACE HERE'">Game 15</button>
-</div>
-
-<div class="game-buttons right-buttons">
     <button onclick="window.location.href='REPLACE HERE'">Game 16</button>
     <button onclick="window.location.href='REPLACE HERE'">Game 17</button>
     <button onclick="window.location.href='REPLACE HERE'">Game 18</button>
@@ -476,7 +499,22 @@ const images = [
             'https://wallpapers.com/images/hd/cool-space-pictures-5xjolsgwmrmgc2fs.jpg',
             'https://wallpapers.com/images/featured/colorful-galaxy-vmf48xxfvh4vurke.jpg',
             'https://i.pinimg.com/736x/92/70/81/9270817e87d84e321e96413b215379e5.jpg',
-            'https://w0.peakpx.com/wallpaper/399/178/HD-wallpaper-galaxy-stars-cool-space-fun-galaxies.jpg'
+            'https://w0.peakpx.com/wallpaper/399/178/HD-wallpaper-galaxy-stars-cool-space-fun-galaxies.jpg',
+            'https://wallpapersok.com/images/hd/desktop-night-sky-hd-wallpaper-yloah50sqas2ajvv.jpg',
+            'https://www.capturelandscapes.com/wp-content/uploads/2017/09/2017FilmNEG416-1-e1505811865909.jpg',
+            'https://wallpapers.com/images/hd/aesthetic-night-sky-1xuv3jwgm030mbwq.jpg',
+            'https://wallpapers.com/images/high/aesthetic-night-sky-9t4deuby4oef691v.webp',
+            'https://miro.medium.com/v2/resize:fit:1400/0*oy60sk1tlKuDG-IX',
+            'https://cdn.suwalls.com/wallpapers/fantasy/planets-in-the-night-sky-25818-1920x1080.jpg',
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1qjOyrfzrLDxLM0RRciPGVC0qbVXic8CKHA&s',
+            'https://www.ppa.com/assets/images/ppmag_articles/header-20184-stefanforster_selection-7.jpg',
+            'https://learn.corel.com/wp-content/uploads/2022/02/tree-736885_1280.jpg',
+            'https://learnandsupport.getolympus.com/sites/default/files/styles/hero_large/public/2023-07/sunset_1.jpg?itok=wafKkn5T',
+            'https://s46675.pcdn.co/wp-content/uploads/2019/10/sunsetlori.jpg',
+            'https://ericstocklinphotography.com/wp-content/uploads/2023/10/ES-Photo-Rock-Hall-Sunset-June-2023.jpeg',
+            'https://learnandsupport.getolympus.com/sites/default/files/styles/hero_large/public/2023-07/sunset_13.jpg?itok=X7_JIwV9',
+            'https://knowledge.depositphotos.com/wp-content/uploads/2020/10/depositphotos_382581174_l-2015-1.jpg',
+            'https://cdn.naturettl.com/wp-content/uploads/2019/08/30184905/Photographing-Sunrises-and-Sunsets-3-1200x675-cropped.jpg'
         ];
 
         let currentImageIndex = 0;
@@ -498,7 +536,7 @@ const images = [
 
         bg1.style.backgroundImage = `url('${images[0]}')`;
         bg2.style.backgroundImage = `url('${images[1]}')`;
-        setInterval(changeBackground, 7500);
+        setInterval(changeBackground, 8000);
 createGrid();
 createKeyboard();
 </script>
