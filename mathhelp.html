@@ -114,6 +114,80 @@ transition: background-color 0.3s ease;
     transform: translateX(-50%) scale(1.1);
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: url('https://source.unsplash.com/1600x900/?galaxy,stars,nebula') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+/* Game Button Containers */
+.game-buttons {
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 5px;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.left-buttons {
+    left: 10px;
+}
+
+.right-buttons {
+    right: 10px;
+}
+
+/* Button Styling */
+.game-buttons button {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 10px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.3s, transform 0.2s;
+    width: 130px;
+}
+
+.game-buttons button:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+}
+
+/* Cool Glowing Effect */
+@keyframes glow {
+    0% { box-shadow: 0 0 5px white; }
+    50% { box-shadow: 0 0 15px white; }
+    100% { box-shadow: 0 0 5px white; }
+}
+
+.game-buttons button:hover {
+    animation: glow 1s infinite alternate;
+}
+
+/* Animated Background */
+@keyframes backgroundAnimation {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+body {
+    background-size: 400% 400%;
+    animation: backgroundAnimation 20s infinite alternate;
+}
 
 </style>
 </head>
@@ -125,6 +199,41 @@ transition: background-color 0.3s ease;
 </div>
 <p id="message" class="message"></p>
 <div class="keyboard" id="keyboard"></div>
+<div class="game-buttons left-buttons">
+    <button onclick="window.location.href='REPLACE HERE'">Game 1</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 2</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 3</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 4</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 5</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 6</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 7</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 8</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 9</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 10</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 11</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 12</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 13</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 14</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 15</button>
+</div>
+
+<div class="game-buttons right-buttons">
+    <button onclick="window.location.href='REPLACE HERE'">Game 16</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 17</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 18</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 19</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 20</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 21</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 22</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 23</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 24</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 25</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 26</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 27</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 28</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 29</button>
+    <button onclick="window.location.href='REPLACE HERE'">Game 30</button>
+</div>
 
 <script>
 async function isValidWord(word) {
