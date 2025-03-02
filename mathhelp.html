@@ -153,38 +153,38 @@ transition: background-color 0.3s ease;
 }
 
 
+/* Game Button Containers */
 .game-buttons {
     position: absolute;
     top: 0;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: start;
     gap: 5px;
     padding: 5px;
     overflow: hidden;
 }
 
 .left-buttons {
-    left: 0;
+    left: 10px;
 }
 
 .right-buttons {
-    right: 0;
+    right: 10px;
 }
 
 /* Button Styling */
 .game-buttons button {
-    flex: 1; /* Make buttons expand to fill available space */
     background: rgba(0, 0, 0, 0.6);
     color: white;
     border: 2px solid rgba(255, 255, 255, 0.3);
-    padding: 15px;
-    font-size: 14px;
+    padding: 10px;
+    font-size: 12px;
     cursor: pointer;
-    border-radius: 0; /* Remove border-radius for full width effect */
+    border-radius: 6px;
     transition: background 0.3s, transform 0.2s;
-    width: 100%;
+    width: 130px;
 }
 
 .game-buttons button:hover {
@@ -504,4 +504,3 @@ createKeyboard();
 </script>
 </body>
 </html>
-
