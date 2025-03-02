@@ -153,38 +153,38 @@ transition: background-color 0.3s ease;
 }
 
 
-/* Game Button Containers */
 .game-buttons {
     position: absolute;
     top: 0;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: space-between;
     gap: 5px;
     padding: 5px;
     overflow: hidden;
 }
 
 .left-buttons {
-    left: 10px;
+    left: 0;
 }
 
 .right-buttons {
-    right: 10px;
+    right: 0;
 }
 
 /* Button Styling */
 .game-buttons button {
+    flex: 1; /* Make buttons expand to fill available space */
     background: rgba(0, 0, 0, 0.6);
     color: white;
     border: 2px solid rgba(255, 255, 255, 0.3);
-    padding: 10px;
-    font-size: 12px;
+    padding: 15px;
+    font-size: 14px;
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 0; /* Remove border-radius for full width effect */
     transition: background 0.3s, transform 0.2s;
-    width: 130px;
+    width: 100%;
 }
 
 .game-buttons button:hover {
